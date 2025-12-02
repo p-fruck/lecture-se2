@@ -2,6 +2,8 @@
 
 Goal: Focus more on Git and GitOps (Pipelines, Container, K8s?) than on traditional software engineering
 
+TODO: Consider Tools like Claper
+
 ## Contents
 - Questions
   - Which programming languages?
