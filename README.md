@@ -2,9 +2,21 @@
 
 Goal: Focus more on Git and GitOps (Pipelines, Container, K8s?) than on traditional software engineering
 
+## Usage
+
+All slides are located in the [slides](slides) folder and written using Markdown.
+[presenterm](https://github.com/mfontanini/presenterm) and mermaid CLI are required for local rendering.
+
+Run `just` to get an overview of all usable commands.
+`just present slides/00-introduction.md` will launch the presenter slide.
+
+For slides containing images, a terminal emulator like [kitty or foot](https://mfontanini.github.io/presenterm/features/images.html) must be used.
+When running inside `tmux`, you need to `set allow-passthrough` for image rendering to work.
+
+## Notes
+
 TODO: Consider Tools like Claper
 
-## Contents
 - Questions
   - Which programming languages?
   - What are students most interested in?
