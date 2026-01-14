@@ -122,7 +122,7 @@ Account on public git server
 ===
 
 - Git can be **decentralized**
-- Your project will be hosted on a public git server (public or private) for grading
+- Your project will be git-hosted (public or private) for grading
 - Please choose one of the three below
 
 <!-- column_layout: [1, 1, 1] -->
