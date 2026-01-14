@@ -14,6 +14,7 @@
           pkgs.just
           pkgs.pandoc
           pkgs.presenterm
+          pkgs.mermaid-cli
           pkgs.typst
           pythonEnv
         ];
