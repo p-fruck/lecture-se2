@@ -2,7 +2,7 @@
 title: "Software Engineering II: **Introduction**"
 author: Philipp Fruck
 theme:
-  path: ../themes/dhbw_mannheim.yml
+  path: ../themes/dhbw_dark.yml
 ---
 
 whoami
