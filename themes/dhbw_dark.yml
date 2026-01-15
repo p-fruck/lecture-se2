@@ -134,7 +134,7 @@ typst:
 footer:
   style: template
   left:
-    image: ../themes/dhbw_logo.png
+    image: ../themes/dhbw_logo_dark.png
   center: "{title}"
   right: "{current_slide} / {total_slides}"
   height: 4
