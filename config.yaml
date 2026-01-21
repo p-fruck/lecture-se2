@@ -6,3 +6,6 @@ export:
   dimensions:
     rows: 36
     columns: 147
+options:
+  auto_render_languages:
+    - mermaid
