@@ -33,7 +33,7 @@ jobs:
         run: |
           export PUPPETEER_ARGS="--no-sandbox --disable-setuid-sandbox"
           export CHROMIUM_FLAGS="--no-sandbox --disable-setuid-sandbox"
-          nix --extra-experimental-features 'flakes nix-command' develop --command mmdc -i diagram.mmd -o diagram.svg --puppeteerConfig puppeteer.json
+          nix --extra-experimental-features 'flakes nix-command' develop --command mmdc -i diagram.mmd -o diagram.svg -p puppeteer.json
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
