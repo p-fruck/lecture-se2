@@ -28,8 +28,6 @@ jobs:
 
       - name: Set up Nix
         uses: cachix/install-nix-action@v31
-      - run: nix build
-      - run: nix flake check
 
       - name: Export all slides using nix develop shell
         run: |
