@@ -31,7 +31,7 @@ jobs:
 
       - name: Export all slides using nix develop shell
         run: |
-          nix --extra-experimental-features 'flakes nix-command' develop --command just export-all
+          nix --extra-experimental-features 'flakes nix-command' develop --command mmdc -i diagram.mmd -o diagram.svg
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
