@@ -204,7 +204,7 @@ gitGraph
 
 # Rebase
 
-<!-- column_layout: [1, 1] -->
+<!-- column_layout: [2, 3] -->
 <!-- column: 0 -->
 **Rebasing** rewrites commit history
 
