@@ -14,7 +14,11 @@
           pkgs.just
           pkgs.pandoc
           pkgs.presenterm
-          pkgs.mermaid-cli
+          (pkgs.writeShellScriptBin "mmdc" ''
+            exec ${pkgs.nodePackages.mermaid-cli}/bin/mmdc \
+              -p ${./puppeteer.json} \
+              "$@"
+          '')
           pkgs.typst
           pythonEnv
         ];
