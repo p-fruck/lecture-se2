@@ -34,6 +34,8 @@ jobs:
           export PUPPETEER_ARGS="--no-sandbox --disable-setuid-sandbox"
           export CHROMIUM_FLAGS="--no-sandbox --disable-setuid-sandbox"
           echo $PATH
+          nix --extra-experimental-features 'flakes nix-command' develop --command echo $PATH
+          nix --extra-experimental-features 'flakes nix-command' develop --command which mmdc
           exit 1
           nix --extra-experimental-features 'flakes nix-command' develop --command mmdc -i diagram.mmd -o diagram.svg -p puppeteer.json
 
