@@ -27,12 +27,13 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Nix
-        uses: cachix/install-nix-action@v25
+        uses: cachix/install-nix-action@v31
+      - run: nix build
+      - run: nix flake check
 
       - name: Export all slides using nix develop shell
         run: |
-          mkdir -p _site
-          nix --extra-experimental-features 'flakes nix-command' develop --command mmdc -i diagram.mmd -o _site/diagram.svg -p puppeteer.json
+          nix --extra-experimental-features 'flakes nix-command' develop --command just export-all
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
