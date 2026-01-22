@@ -810,6 +810,35 @@ Git also has more advanced configuration options that allow automating tasks
 
 <!-- end_slide -->
 
+Git Submodules vs. Subtrees
+===
+
+How to include external Git repositories within your project?
+
+# Comparison at a Glance
+
+| Feature | Git Submodules | Git Subtrees |
+| :--- | :--- | :--- |
+| **Storage** | Pointer to a specific commit | Entire history merged into repo |
+| **Workflow** | `git submodule update` required | Standard `git push/pull` |
+| **File Size** | Lightweight (metadata only) | Heavier (includes full source) |
+| **Visibility** | Clearly separated | Seamlessly integrated |
+
+## Visual Workflow
+
+```mermaid
+graph TD
+    subgraph Subtree
+    C[Main Repo] -->|Contains| D[External Repo Files]
+    end
+
+    subgraph Submodule
+    A[Main Repo] -->|Link| B(External Repo URL/Commit)
+    end
+```
+
+<!-- end_slide -->
+
 Secrets
 ===
 
