@@ -5,14 +5,88 @@ theme:
   path: ../themes/dhbw_dark.yml
 ---
 
-ToDo
+Project structure
 ===
 
-# General project structure
-- src/docs/container
-- .github/.gitlab, issue templates
-- README/LICENSE
-- prettierrc and other tooling config
+<!-- column_layout: [1,7,1] -->
+<!-- column: 1 -->
+
+# Example
+
+```bash
+samplerepo/
+├── .git/       # git project folder
+├── container/  # container files
+├── docs/       # documentation (user, dev, admin)
+├── scripts/    # utilities used for development
+├── src/        # source folder (depends on language)
+├── .prettierrc # config file for tooling
+├── Justfile    # (or Makefile) script runner
+├── README.md   # project overview
+└── LICENSE     # open source license,
+                # otherwise proprietary
+```
+
+<!-- pause -->
+
+## How do I choose a license?
+
+- [Choose a license](https://choosealicense.com)
+- [Tabular  Overview](https://choosealicense.com/appendix)
+- [Interactive wizard](https://choosingalicense.com/wizard)
+- [TLDR Legal](https://tldrlegal.com)
+
+<!-- end_slide -->
+
+Mono vs Multi-Repo
+===
+
+<!-- column_layout: [1,1]-->
+<!-- column: 0 -->
+# Mono-Repo
+All components in a single repository
+
+## Pros:
+
+- Unified Versioning
+- Cross-Project Changes
+- Consistency
+- Shared Resources
+- Simplified CI/CD
+
+<!-- column: 1 -->
+
+# Multi-Repo
+
+One repo per component
+
+## Pros:
+
+- Separation of Concerns
+- Independent Versioning
+- Smaller Codebases
+- Granular Access Control
+
+<!-- reset_layout -->
+<!-- column_layout: [1,1]-->
+<!-- column: 0 -->
+
+## Cons:
+
+- Scalability Issues
+- Complexity
+- Longer Checkout/Clone Times
+- Access Control
+
+<!-- column: 1 -->
+
+## Cons:
+
+- Dependency Management
+- Cross-Repo Changes
+- Integration Overhead
+- Tooling Complexity
+
 
 <!-- end_slide -->
 
@@ -101,7 +175,7 @@ stateDiagram-v2
 CI/CD Examples
 ===
 
-In the following we take a look at some simple actions for GitHub, Forgejo (Codeberg) and GitLab.
+We take a look at some simple actions for GitHub, Forgejo (Codeberg) and GitLab.
 
 All three action types share the following ideas:
 
@@ -112,7 +186,7 @@ All three action types share the following ideas:
 - Run on different operating systems or containers
   - E.g. build application on Windows, MacOS and Linux
 - Divide into different stages (lint/build/test/deploy)
-- Reuse existing snippets (Actions/Components)
+- Reuse existing snippets (actions/components)
 - Create/share artifacts
   - E.g. compiled executable or website
   - Upload release binary or deploy to webserver
@@ -121,18 +195,27 @@ All three action types share the following ideas:
 
 GitHub Actions: CI/CD Example
 ===
-GitHub Actions lets you automate workflows directly from your GitHub repository.
+<!-- column_layout: [3,2]-->
+<!-- column: 0 -->
+GitHub Actions uses **workflows** defined in `.github/workflows/`
 
-Example Workflow:
-- Triggered by a push or pull request to the repository.
-- Example `.github/workflows/main.yml`:
+- Each **workflow** can have multiple **jobs**
+- A **job** is a set of **steps**
+  - Steps are executed sequentally (same runner)
+  - Data sharing possible
+- By default all jobs run in parallel
+  - Dependencies between jobs can be configured
+- **Actions** are reusable sets of jobs or code
+  - Can be used to checkout code/install tools etc.
 
+[Full syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax)
+
+<!-- column: 1 -->
 ```yaml
 name: CI/CD Pipeline
 on: 
   push:
     branches: [main]
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -143,67 +226,177 @@ jobs:
         with:
           node-version: '24'
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
       - name: Run Tests
         run: npm test
-      - name: Deploy
-        run: ./deploy.sh
 ```
 
 <!-- end_slide -->
 
-
 GitLab CI/CD Example
 ===
-GitLab also supports CI/CD via its integrated CI/CD pipeline.
+<!-- column_layout: [3,2]-->
+<!-- column: 0 -->
+GitLab uses the term **pipelines** for CI/CD.
+Pipelines are defined in the `.gitlab-ci.yml`
 
-Example `.gitlab-ci.yml` file:
+- Reusable **components** can be used via `include`
+- **Jobs** are defined at top-level
+- **Jobs** are divided into **stages**
+  - Stages are executed sequentially
+  - Jobs in a single stage run in parallel
+- **Rules** are used to conditionally run a job
+- `default` can be used to apply config to all jobs 
+
+[Full syntax](https://docs.gitlab.com/ci/yaml/)
+
+<!-- column: 1 -->
 ```yaml
+include:
+  - component: $CI_SERVER_FQDN/my-org/security-components/secret-detection@1.0
 stages:
   - build
   - test
-  - deploy
-
-build:
+build-job:
+  stage: build
+  image: node
   script:
-    - echo "Building project..."
-
-test:
+    - npm ci
+test-job:
+  stage: test
   script:
-    - echo "Running tests..."
-
-deploy:
-  script:
-    - echo "Deploying to production..."
+    - npm run test
+  rules:
+    # e.g. only run on main
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 ```
-
-GitLab pipelines can be triggered by commits, merge requests, or scheduled events.
 
 <!-- end_slide -->
 
 Forgejo CI/CD Example
 ===
-Forgejo (Gitea fork) supports CI/CD through **Forgejo Actions**, which is very similar to GitHub Actions.
+<!-- column_layout: [3,2]-->
+<!-- column: 0 -->
+Forgejo (Gitea fork) supports CI/CD through **Forgejo Actions**
+- Very similar to GitHub Actions
+- Actions can be specified using relative or full URL
+  - set DEFAULT_ACTIONS_URL as an admin
+  - Use full HTTPS URL for custom actions
+- For simple pipelines Forgejo and GitHub Actions should be identical
+  - But there exist [subtle differences](https://forgejo.org/docs/latest/user/actions/github-actions/)
 
-Example Forgejo Action file:
+<!-- column: 1 -->
 ```yaml
 name: Forgejo CI Pipeline
 on:
   push:
     branches: 
       - main
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: https://data.forgejo.org/actions/checkout@v6
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
       - name: Install dependencies
         run: npm install
       - name: Run tests
         run: npm test
-      - name: Deploy to server
-        run: ./deploy.sh
+```
+
+<!-- end_slide -->
+
+Saving Pipeline Data
+===
+
+**Artifacts** can be used to save pipelines data (and share it between jobs)
+
+<!-- column_layout: [1,1]-->
+<!-- column: 0 -->
+# GitHub / Forgejo
+```yaml
+jobs:
+  build:
+    steps:
+      - run: echo "Hello world" > message.txt
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact
+          path: message.txt
+  consume:
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: my-artifact
+      - run: cat message.txt
+```
+
+<!-- column: 1 -->
+# GitLab
+
+```yaml
+stages: [build, consume]
+build:
+  stage: build
+  script:
+    - echo "Hello world" > message.txt
+  artifacts:
+    paths:
+      - message.txt
+consume:
+  stage: consume
+  needs:
+    - job: build
+      artifacts: true
+  script:
+    - cat message.txt
+```
+
+<!-- end_slide -->
+
+Matrix Execution
+===
+
+Sometimes we want to parameterize our pipelines:
+- Build for multiple CPU architectures
+- Test against multiple runtime versions
+This can be achieved using a **matrix**
+
+<!-- column_layout: [1,1]-->
+<!-- column: 0 -->
+# GitHub / Forgejo
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [22, 24, 25]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm ci
+      - run: npm test
+```
+<!-- column: 1 -->
+# GitLab
+```yaml
+test:
+  image: node:$NODE_VERSION
+  parallel:
+    matrix:
+      - NODE_VERSION: [22, 24, 25]
+
+  script:
+    - npm ci
+    - npm test
 ```
 
 <!-- end_slide -->
@@ -214,6 +407,17 @@ CI/CD Best Practices
 2. **Keep pipelines fast**: Avoid long-running tests to maintain fast feedback.
 3. **Deploy often**: Deploy to production regularly for quicker user feedback.
 4. **Monitor pipelines**: Keep track of pipeline performance and failures.
+
+<!-- end_slide -->
+
+Exercise
+===
+
+Now you have time to run some pipelines yourself!
+
+- Create pipelines to setup, build and test your project
+- Consider adding pipelines for tooling (formatting/linting) as well
+- If you still have time, try using artifacts and matrices
 
 <!-- end_slide -->
 
