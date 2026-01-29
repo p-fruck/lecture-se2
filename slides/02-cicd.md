@@ -21,6 +21,7 @@ samplerepo/
 ├── scripts/    # utilities used for development
 ├── src/        # source folder (depends on language)
 ├── .prettierrc # config file for tooling
+├── CODEOWNERS  # define team responsibilities
 ├── Justfile    # (or Makefile) script runner
 ├── README.md   # project overview
 └── LICENSE     # open source license,
