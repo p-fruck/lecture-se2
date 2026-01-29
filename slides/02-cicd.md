@@ -1,5 +1,5 @@
 ---
-title: "Software Engineering II: **Projetcs & CI/CD**"
+title: "Software Engineering II: **Projects & CI/CD**"
 author: Philipp Fruck
 theme:
   path: ../themes/dhbw_dark.yml
