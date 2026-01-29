@@ -1,5 +1,8 @@
 # Lecture: Software Engineering 2
 
+[![CC BY 4.0][cc-by-shield]][cc-by]
+![Deploy Pages](https://github.com/p-fruck/lecture-se2/actions/workflows/pages.yml/badge.svg)
+
 Goal: Focus more on Git and GitOps (Pipelines, Container, K8s?) than on traditional software engineering
 
 ## Usage
@@ -50,3 +53,14 @@ TODO: Consider Tools like Claper
   - Compose?
   - k8s definitions
   - k8s deployment using flux?
+
+## License
+
+This work is licensed under a
+[Creative Commons Attribution 4.0 International License][cc-by].
+
+[![CC BY 4.0][cc-by-image]][cc-by]
+
+[cc-by]: http://creativecommons.org/licenses/by/4.0/
+[cc-by-image]: https://i.creativecommons.org/l/by/4.0/88x31.png
+[cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
