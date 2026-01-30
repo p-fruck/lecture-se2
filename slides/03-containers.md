@@ -72,21 +72,33 @@ TODO
 - Containers
 - Pods
 - Namespacing/IPC/NetNS
+- Volumes
+- Secrets?
 
 <!-- end_slide -->
 
 Docker vs Podman: Summary
 ===
 
+<!-- column_layout: [1, 5, 1] -->
+<!-- column: 1 -->
+| Feature      | Docker                   | Podman                        |
+| ------------ | ------------------------ | ----------------------------- |
+| Architecture | Client/Server            | Daemonless                    |
+| Permissions  | Rootfull by default      | Rootless by default           |
+| Daemon       | Yes, always running      | Optional (Docker API support) |
+| Runtime      | Containerd / runc        | CRI-O / crun                  |
+| Pods (k8s)   | Not natively             | Native support                |
+| IaC          | docker-compose           | compose, quadlet, k8s         |
+| Network      | ⚠️ Overwrites `iptables` | Rootless: Userspace (also has drawbacks) |
+|              |                          | Rootfull: limited changes to `iptables`  |
 
-| Feature      | Docker              | Podman                        |
-| ------------ | ------------------- | ----------------------------- |
-| Architecture | Client/Server       | Daemonless                    |
-| Permissions  | Rootfull by default | Rootless by default           |
-| Daemon       | Yes, always running | Optional (Docker API support) |
-| Runtime      | Containerd / runc   | CRI-O / crun                  |
-| Pods (k8s)   | Not natively        | Native support                |
-| IaC          | docker-compose      | compose, quadlet, k8s         |
+<!-- pause -->
+In general, Podman can be used as a Docker replacement: `alias docker=podman`
+<!-- pause -->
+Of course there are differences when comparing rootless against rootfull
+<!-- pause -->
+This lecture uses Podman as default -> `alias podman=docker` if you have Docker installed
 
 <!-- end_slide -->
 
@@ -128,8 +140,27 @@ flowchart TD
         P3 --> P5
         P4 -->|Runs containers| HostOS
     end
-
 ```
+<!-- end_slide -->
+
+Building Container Images
+===
+
+<!-- end_slide -->
+Multi staging
+===
+
+Idea: Fewer stuff in image
+- Scratch/distroless/alpine
+
+<!-- end_slide -->
+Running as different user
+===
+
+- subuid mapping in rootless mode
+- podman unshare
+
+<!-- end_slide -->
 
 
 <!-- end_slide -->
