@@ -1,0 +1,25 @@
+# Stage 1: Build
+FROM docker.io/debian:stable-slim AS builder
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        gcc \
+        libc6-dev \
+        && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src
+
+COPY hello_world.c .
+
+# compile it statically -> no glibc references
+RUN gcc -static -O2 -s hello_world.c -o hello_world
+
+ENTRYPOINT ["/src/hello_world"]
+
+# Stage 2: Prod
+# scratch is not a real image, but meta layer (empty filesystem)
+FROM scratch
+
+COPY --from=builder /src/hello_world /bin/hello_world
+
+ENTRYPOINT ["/bin/hello_world"]
