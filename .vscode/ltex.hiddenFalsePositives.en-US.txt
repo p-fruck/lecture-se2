@@ -1,0 +1,1 @@
+{"rule":"A_NNS","sentence":"^\\QOCI image is essentially a tarball\nConsists of multiple \"Layers\"\nLayers are stacked changes to the images\nImage contains metadata\nEntrypoint/Command, Env, Architecture, ...\\E$"}
