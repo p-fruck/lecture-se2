@@ -514,8 +514,8 @@ But: I am running rootless Podman... Why do I have a root user at all?
 <!-- column_layout: [1, 1] -->
 <!-- column: 0 -->
 - Can Podman auto-resolve such issues for me?
-  - Volume options `idmap=auto` or `idmap=keep-id`
-  - Or `podman run --userns=keep-id`
+  - Volume options `idmap=auto` or `idmap=keep-id` (rootful)
+  - Or `podman run --userns=keep-id` (rootless)
 <!-- column: 1 -->
 - As always, keep privileges to a minimum. `--userns=keep-id` is kind of equal to running root inside the container.
 
