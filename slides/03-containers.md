@@ -218,7 +218,7 @@ Running Containers
 `podman run [--rm] [-it] [--entrypoint <myentrypoint>] [--name mycontainer] myimage <command>`
 
 - `--rm` removes container after run
-- `-it` = *i*nteractive with pseudo-*T*TY
+- `-it` = **i**nteractive with pseudo-**T**TY
 - `--name` adds a descriptive name
 - `-v`/`--volumes`: Attach volumes or volume mounts: `-v ./my-local-folder:/mnt/folder-in-container:ro,Z`
   - Add `:ro` for read-only volumes, `Z` or `z` for SELinux context
