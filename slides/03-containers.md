@@ -24,7 +24,7 @@ Introduction
 
 - Portability
 - Security
-- Reproducability
+- Reproducibility
 
 <!-- column: 1 -->
 
@@ -67,9 +67,9 @@ We will focus on **OCI Containers**
 
 Tools supporting OCI runtime or image specification:
 
-- Runtimes: runc, crun, Kata
+- Runtimes: `runc`, `crun`, Kata
   - Lowest level, ensure isolation, start and stop container processes
-- Engines: Docker/Podman, containerd, CRI-O
+- Engines: Docker/Podman, `containerd`, CRI-O
   - User facing interface
   - Utilize runtime to manage containers
   - Provide CLI and API to do so
@@ -151,18 +151,18 @@ Comparison of the two major container engines
 | Feature      | Docker                   | Podman                        |
 | ------------ | ------------------------ | ----------------------------- |
 | Architecture | Client/Server            | Daemonless                    |
-| Permissions  | Rootfull by default      | Rootless by default           |
+| Permissions  | Rootful by default      | Rootless by default           |
 | Daemon       | Yes, always running      | Optional (Docker API support) |
-| Runtime      | Containerd / runc        | CRI-O / crun                  |
+| Runtime      | containerd / runc        | CRI-O / crun                  |
 | Pods (k8s)   | Not natively             | Native support                |
 | IaC          | docker-compose           | compose, quadlet, k8s         |
 | Network      | ⚠️ Overwrites `iptables` | Rootless: Userspace (also has drawbacks) |
-|              |                          | Rootfull: ⚠️ Overwrites `iptables` |
+|              |                          | Rootful: ⚠️ Overwrites `iptables` |
 
 <!-- pause -->
 In general, Podman can be used as a Docker replacement: `alias docker=podman`
 <!-- pause -->
-Of course there are differences when comparing rootless against rootfull
+Of course there are differences when comparing rootless against rootful
 <!-- pause -->
 This lecture uses Podman as default -> `alias podman=docker` if you have Docker installed
 
@@ -211,7 +211,7 @@ flowchart TD
 Running Containers
 ===
 
-`podman` and `docker` are interchangieable (for the most part)
+`podman` and `docker` are interchangeable (for the most part)
 
 `podman run`: Subcommand to run containers
 
@@ -229,7 +229,7 @@ Running Containers
 
 - Network modes: Bridge, Host, none
 <!-- pause -->
-- ⚠️ Double check your firewall when running in rootfull mode
+- ⚠️ Double-check your firewall when running in rootful mode
 
 <!-- end_slide -->
 Registries & Tags
@@ -239,9 +239,9 @@ Registries & Tags
 <!-- column: 0 -->
 ## Registries
 
-- Implicit container image will resolved to configured registry
+- Implicit container image will be resolved to configured registry
 - Available registries:
-  - DockerHub (docker.io)
+  - Docker Hub (docker.io)
   - Quay (quay.io)
   - GitHub Container Registry (ghcr.io)
   - Kubernetes Container Registry (registry.k8s.io)
@@ -288,8 +288,8 @@ Tag usage always depends on requirements
 - Explicit tags help reproduce older builds
   - Imagine rebuilding a Container from git history one year ago
   - Spoiler: Does not work very often...
-- Workaround: Using explicit images & Dependabot/Renovatebot
-  - (Auto-)updates always depend on usecase!
+- Workaround: Using explicit images & Dependabot/Renovate bot
+  - (Auto-)updates always depend on use case!
 
 <!-- end_slide -->
 OCI base images
@@ -299,7 +299,7 @@ OCI base images
 <!-- column: 0 -->
 # Base distros
 
-Typical linux distros are available on e.g. Docker Hub
+Typical Linux distros are available on e.g. Docker Hub
 - Debian: `trixie` = `13` = `13.3`
 - Ubuntu: `resolute` = `26.04` = `devel`
 - Fedora: `43` = `latest`, `44` = `rawhide`
@@ -314,10 +314,10 @@ Now we want to build our own image
 
 - `podman build <context> [-t <tag>] [-f <file>]`
 - `Dockerfile` and `Containerfile` are automatically detected by Podman
-- Build context (usually .) defines the base directory
-  - Files can only be copied from this directory (or subdirs)
+- Build context (usually `.`) defines the base directory
+  - Files can only be copied from this directory (or subdirectories)
   - Add `.dockerignore` for sensible files!
-    - Slightly different syntax than gitignore
+    - Slightly different syntax from `.gitignore`
     - Symlinking might work
 <!-- pause -->
 - Each directive (`RUN`, `COPY`) creates a new layer
@@ -365,7 +365,7 @@ Your task is to create two simple container images, one running hello world both
 # C
 
 - Create `hello_world.c` and a second Containerfile
-- Start with a debian image (docker.io/debian:slim)
+- Start with a Debian image (docker.io/debian:slim)
 - Install the build tools
 - Compile the C file and run it
 - Does it work?
@@ -383,7 +383,7 @@ OCI base images
 <!-- column: 0 -->
 # Base distros
 
-Typical linux distros are available on e.g. Docker Hub
+Typical Linux distros are available on e.g. Docker Hub
 - Debian: `trixie` = `13` = `13.3`
 - Ubuntu: `resolute` = `26.04` = `devel`
 - Fedora: `43` = `latest`, `44` = `rawhide`
@@ -407,13 +407,13 @@ They still contain shell and other "useless" stuff
 
 ## Peak minimalism
 
-- distroless
+- `distroless`
   - Developed by Google
-  - Only application & shared libs
+  - Only application & shared libraries
   - Minimal OS files
   - No shell/package manager
-- scratch
-  - Empty filesystem
+- `scratch`
+  - Empty file system
   - Meta image (built-in, no registry required)
 
 <!-- reset_layout -->
@@ -427,7 +427,7 @@ Multi staging
 
 <!-- column_layout: [1, 1] -->
 <!-- column: 0 -->
-Idea: Fewer stuff in image
+Idea: Less stuff in image
 - Each `FROM` directive starts a new image
   - Last `FROM` directive (or target) specifies the image to build
   - Other images are stored as temporary artifacts
@@ -461,12 +461,12 @@ Building Container Images - Advanced
 <!-- column_layout: [3, 2] -->
 <!-- column: 0 -->
 - `COPY` can also be run with `--chown user:group` and `--chmod 640`
-  - Works different than `cp` command on directories
+  - Works different from `cp` command on directories
   - `COPY ./src/ .` copies the content of `src` to `.`
 <!-- pause -->
 - `ENV` can be used to persist environment variables
 - `EXPOSE` can be used to highlight ports
-  - e.g. `EXPOSE 443/tcp` for a webserver
+  - e.g. `EXPOSE 443/tcp` for a web server
   - Only metadata, does not actually forward a port
 <!-- pause -->
 - `ARG` can be used to add build-time argument
@@ -513,7 +513,7 @@ But: I am running rootless Podman... Why do I have a root user at all?
 <!-- pause -->
 <!-- column_layout: [1, 1] -->
 <!-- column: 0 -->
-- Can podman resolve permission issues for me?
+- Can Podman auto-resolve such issues for me?
   - Volume options `idmap=auto` or `idmap=keep-id`
   - Or `podman run --userns=keep-id`
 <!-- column: 1 -->
