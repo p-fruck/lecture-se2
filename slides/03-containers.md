@@ -1,5 +1,5 @@
 ---
-title: "Software Engineering II: **Projects & CI/CD**"
+title: "Software Engineering II: **Containers**"
 author: Philipp Fruck
 theme:
   path: ../themes/dhbw_dark.yml
@@ -204,7 +204,7 @@ flowchart TD
         P1 -->|Run Containers| P4
         P2 --> P5
         P3 --> P5
-        P4 -->|Runs containers| HostOS
+        P4 -->|Runs containers| HostOS[Host OS Kernel]
     end
 ```
 <!-- end_slide -->
