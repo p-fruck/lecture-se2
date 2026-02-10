@@ -162,7 +162,7 @@ language: yaml
   - `compose.yml` and `docker-compose.yml` (and `.yaml`) are automatically detected --> no `-f`
 
 ---
-Compose: Lifecycle
+Compose: Subcommands
 ===
 
 <!-- column_layout: [8,7] -->
@@ -191,6 +191,127 @@ Subcommands can be executed for all containers (default) or for a specific conta
 - Use `logs -f` to stream updated logs
 - Use `up --build` for a `build` shortcut
 - Use `run --rm` to prevent zombies
+
+---
+Compose: More Syntax
+===
+<!-- column_layout: [2,3] -->
+<!-- column: 0 -->
+```file +line_numbers +no_background
+path: ../examples/compose/compose.syntax.yml
+language: yaml
+```
+<!-- column: 1 -->
+We can specify any container option in the compose file
+
+- Build the service `app` from local `Containerfile` in directory `.`
+- When using `Dockerfile` in same folder, `build .` is sufficient
+  - Remember: No automatic rebuilds!
+
+<!-- pause -->
+## Naming
+
+- COMPOSE_PROJECT_NAME: Parent folder of the compose file, e.g. `compose`
+  - Can be overridden (environment or top-level `name:`)
+- `container_name` sets explicit name `demo-app` instead of `compose-app-1`
+
+---
+Compose: Variables
+===
+<!-- column_layout: [3,4] -->
+<!-- column: 0 -->
+
+```file +line_numbers +no_background
+path: ../examples/compose/compose.env.yml
+language: yaml
+```
+<!-- column: 1 -->
+# Variables
+- Compose reads current environment and parses `.env` file relative to compose file
+- Variable must be passed to containers explicitly
+# Substitution
+
+| Syntax          | Evaluates To                        |
+|-----------------|-------------------------------------|
+| `${VAR}`        | Value of `VAR`                      |
+| ${VAR:-default} | Value of `VAR`, otherwise `default` |
+| `${VAR:?error}` | Require VAR or throw error          |
+<!-- pause -->
+---
+Compose: Environment
+===
+<!-- column_layout: [3,4] -->
+<!-- column: 0 -->
+
+```file +line_numbers +no_background
+path: ../examples/compose/compose.env.yml
+language: yaml
+```
+
+```bash +no_background
+# ../examples/compose/.env
+MYPASSWORD=s3cr3t
+```
+
+<!-- column: 1 -->
+```bash +exec
+file=../examples/compose/compose.env.yml
+docker-compose -f $file config | grep -A2 environment
+```
+
+---
+Compose: Anchors
+===
+
+<!-- column_layout: [3,4] -->
+<!-- column: 0 -->
+```file +line_numbers +no_background
+path: ../examples/compose/compose.anchors.yml
+language: yaml
+```
+<!-- column: 1 -->
+- YAML anchors can be used to reuse config
+- Can be placed anywhere in the file
+  - Use top-level `x-` attributes for config snippets (no invalid syntax errors)
+<!-- pause -->
+- Advantage: Ensure consistent config
+- Disadvantage: Harder to read
+
+---
+Compose: Network
+===
+
+TODO
+
+- default network
+- multiple network
+- network mode
+- sidecars
+
+---
+Exercise
+===
+
+Remember the script from the beginning? Your task is to reproduce this using a compose file!
+
+The script is located in the `git` repo under `../examples/compose/manual.sh`
+
+<!-- column_layout: [1,1] -->
+<!-- column: 0 -->
+- Spawn two Postgres containers
+  - `client` and `server`
+  - `server` should keep running (daemon)
+  - `client` should only exececute the query and exit
+<!-- column: 1 -->
+Use a `.env` file like this to share variables between the two containers:
+```bash
+POSTGRES_VERSION=18-alpine
+POSTGRES_PASSWORD=s3cr3t
+```
+
+---
+Compose: Lifecycle
+===
 
 ---
 Quadlets

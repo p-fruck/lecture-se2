@@ -1,0 +1,14 @@
+x-common-env: &common-env
+  TZ: UTC
+  LOG_LEVEL: info
+
+services:
+  web:
+    environment:
+      <<: *common-env
+      HTTP_PORT: 8080
+    volumes: &app-volumes
+      ./data:/data:ro,z
+  worker:
+    environment: *common-env
+    volumes: *app-volumes

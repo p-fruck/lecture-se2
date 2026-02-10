@@ -1,0 +1,15 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Containerfile
+    container_name: demo-app
+    command: ["--http", ":8080"]
+    entrypoint: ["/bin/myapp"]
+    user: "1000:1000"
+    working_dir: /app
+    env_file: .env
+    environment:
+      LECTURE: "SE2"
+    ports:
+      - 127.0.0.1:8080:8080/tcp
