@@ -32,6 +32,10 @@ jobs:
       - name: Install podman
         run: sudo apt-get update && sudo apt-get install -y podman
 
+      - name: Pre-pull images
+        # ensure images pulled to have clean CLI output in slides
+        run: ./examples/compose/manual.sh
+
       - name: Export all slides using nix develop shell
         run: |
           nix --extra-experimental-features 'flakes nix-command' develop --command just export-all
