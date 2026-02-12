@@ -1,0 +1,17 @@
+services:
+  proxy:
+    image: nginxinc/nginx-unprivileged:alpine
+    networks: ["web"]
+  backend:
+    image: python:alpine
+    networks: ["web", "db"]
+  db:
+    image: postgres:alpine
+    networks: ["db"]
+networks:
+  db:
+  web:
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 2001:db8::/64

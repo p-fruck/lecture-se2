@@ -1,0 +1,14 @@
+services:
+  app:
+    image: nginx:alpine
+    healthcheck:
+      test: ["CMD", "curl","[::1]"]
+      interval: 3s
+      retries: 5
+      start_period: 1s
+      timeout: 10s
+  dependend:
+    image: nginx:alpine
+    depends_on:
+      app:
+        condition: service_healthy
