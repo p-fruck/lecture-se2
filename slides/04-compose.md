@@ -346,24 +346,6 @@ language: yaml
 ```
 
 ---
-Compose: Anchors
-===
-
-<!-- column_layout: [3,4] -->
-<!-- column: 0 -->
-```file +line_numbers +no_background
-path: ../examples/compose/compose.anchors.yml
-language: yaml
-```
-<!-- column: 1 -->
-- YAML anchors can be used to reuse config
-- Can be placed anywhere in the file
-  - Use top-level `x-` attributes for config snippets (no invalid syntax errors)
-<!-- pause -->
-- Advantage: Ensure consistent config
-- Disadvantage: Harder to read
-
----
 Compose: Healthcheck & Dependencies
 ===
 <!-- column_layout: [3,4] -->
@@ -384,6 +366,44 @@ language: yaml
   - run inside the container
   - use `CMD` or `CMD-SHELL`
     - array or string notation
+
+---
+Compose: Watch
+===
+
+<!-- column_layout: [3,4] -->
+<!-- column: 0 -->
+```file +line_numbers +no_background
+path: ../examples/compose/compose.watch.yml
+language: yaml
+```
+<!-- column: 1 -->
+# Auto update builds
+
+- For development, we can watch and reload project
+- Can be done for volume mounts (hot-reload)
+  - `action: sync`
+- Also for full container builds
+  - `action: build`
+- Use `docker-compose up -w` to watch
+
+---
+Compose: Anchors
+===
+
+<!-- column_layout: [3,4] -->
+<!-- column: 0 -->
+```file +line_numbers +no_background
+path: ../examples/compose/compose.anchors.yml
+language: yaml
+```
+<!-- column: 1 -->
+- YAML anchors can be used to reuse config
+- Can be placed anywhere in the file
+  - Use top-level `x-` attributes for config snippets (no invalid syntax errors)
+<!-- pause -->
+- Advantage: Ensure consistent config
+- Disadvantage: Harder to read
 
 ---
 Compose: Profiles
