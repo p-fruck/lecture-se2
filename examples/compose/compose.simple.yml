@@ -1,0 +1,7 @@
+services:
+  web:
+    image: docker.io/nginxinc/nginx-unprivileged
+    ports:
+      - 8080:8080/tcp
+    volumes: # serve generated lecture slides
+      - ../../_site:/usr/share/nginx/html:ro,Z

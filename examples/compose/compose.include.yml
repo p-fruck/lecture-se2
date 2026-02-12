@@ -1,0 +1,5 @@
+include:
+  - ./compose.simple.yml
+services:
+  db:
+    image: postgres:alpine

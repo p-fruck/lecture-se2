@@ -1,0 +1,13 @@
+services:
+  app:
+    image: nginx:alpine
+    ports:
+      - 8001:80   # app port
+      - 8080:8080 # sidecar port
+  sidecar:
+    image: nginxinc/nginx-unprivileged
+    entrypoint:
+      - sh
+      - -c
+      - sleep 1 && nginx -g "daemon off;"
+    network_mode: "service:app"

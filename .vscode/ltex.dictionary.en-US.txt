@@ -25,3 +25,7 @@ Forgejo
 shasum
 Archlinux
 Containerfile
+Quadlets
+Quadlet
+Healthcheck
+Healthchecks

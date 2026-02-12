@@ -1,0 +1,10 @@
+services:
+  app:
+    image: python:alpine
+    profiles: ["app", "web"]
+  web:
+    image: nginx:alpine
+    profiles: ["web"]
+  db:
+    image: postgres:18-alpine
+    profiles: ["app", "db"]

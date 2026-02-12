@@ -10,6 +10,7 @@
       in
       pkgs.mkShell {
         packages = [
+          pkgs.docker-compose
           pkgs.inconsolata
           pkgs.just
           pkgs.pandoc

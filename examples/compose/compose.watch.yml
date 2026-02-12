@@ -1,0 +1,9 @@
+services:
+  app:
+    build: ./watch
+    entrypoint: ["sleep", "9000"]
+    develop:
+      watch:
+        - action: rebuild
+          path: ./watch/requirements.txt
+      

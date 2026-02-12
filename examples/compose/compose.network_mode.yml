@@ -1,0 +1,10 @@
+services:
+  proxy_host:
+    image: nginxinc/nginx-unprivileged:alpine
+    network_mode: host
+  proxy_old: # Workaround for Podman 4.X
+    image: nginxinc/nginx-unprivileged:alpine
+    network_mode: "slirp4netns:port_handler=slirp4netns"
+  proxy_new: # Workaround for Podman 5.X
+    image: nginxinc/nginx-unprivileged:alpine
+    network_mode: "pasta"
