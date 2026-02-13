@@ -5,6 +5,11 @@
 @present *args:
     presenterm -c config.yaml -x {{ args }}
 
+# e.g. just export pdf
+[group('build')]
+@export type file output *args:
+    presenterm -x --export-{{ type }} {{ file }} --output {{ output }} {{ args }}
+
 [group('build')]
 @export-all *args:
     rm -rf _site && mkdir _site
@@ -14,7 +19,7 @@
         echo $file; \
         name=$(basename "${file}" | cut -d . -f 1); \
         echo "- ${name} [[html](${name}.html)][[pdf](${name}.pdf)]" >> _site/index.md; \
-        presenterm -x -c config.yaml --export-pdf --output _site/${name}.pdf ${file} {{ args }}; \
-        presenterm -x -c config.yaml --export-html --output _site/${name}.html ${file} {{ args }}; \
+        just export pdf ${file} _site/${name}.pdf {{ args }}; \
+        just export html ${file} _site/${name}.html {{ args }}; \
     done
     pandoc _site/index.md -o _site/index.html
