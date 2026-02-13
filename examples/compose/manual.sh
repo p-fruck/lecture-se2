@@ -12,4 +12,4 @@ sleep 3
 podman run --rm --name ${client} --network ${net} -e PGPASSWORD=${pg_password} \
   --entrypoint psql postgres:${pg_version} -h ${server} -U postgres -c "SELECT version();"
 # clean up
-podman rm -f ${client} ${server} && podman network rm ${net}
+podman rm -f ${client} ${server} && podman network rm -f ${net}
