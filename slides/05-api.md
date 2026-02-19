@@ -603,7 +603,7 @@ GraphQL
 # Different philosophy
 
 Single endpoint/method:
-- POST /GraphQL
+- `POST /graphql`
 
 Client defines the shape of the response
 
